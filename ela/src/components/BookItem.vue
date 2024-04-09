@@ -1,14 +1,14 @@
 <template>
 <div class="bi-box">
-		<div class="cover">
+		<div class="cover" :style="{backgroundImage:'url('+cover+')'}">
 
 		</div>
 		<div class="info">
 				<div class="title">
-						Title
+						{{title}}
 				</div>
 				<div class="author">
-					Author
+					{{author}}
 				</div>
 				
 		</div>
@@ -23,7 +23,12 @@
 
 
 <script setup>
-
+defineProps({
+	id:Number,
+	title:String,
+	author:String,
+	cover:String
+})
 </script>
 
 <style scoped>
@@ -36,7 +41,13 @@
 .cover{
 	height: 150px;
 	width: 120px;
-	background-color: #3aa3bd;
+	background-size: cover;
+  background-position: 70%;
+	box-shadow: 0 0 10px 0 white;
+	cursor: pointer;
+}
+.cover:hover{
+	box-shadow: 0 0 20px 0 white;
 }
 .info{
 	flex-grow: 1;

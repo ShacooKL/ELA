@@ -5,7 +5,7 @@ export const useUserStore = defineStore('user', () => {
   const id = ref(0)
 	const name = ref('0')
 	const isLogin = ref(false)	
-	const loginWidowShow = ref(true)
+	const loginWidowShow = ref(false)
 
 	function login(){
 		//login api

@@ -12,7 +12,8 @@ const router = createRouter({
     {
       path: '/searchBook/:searchContent',
       name: 'searchBook',
-      component: SearchBookView
+      component: SearchBookView,
+      props:true
     },
    
   ]

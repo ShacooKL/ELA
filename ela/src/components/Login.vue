@@ -50,10 +50,10 @@ function login(){
 	height: 400px;
 	background-color: #ffffff8a;
 	color: azure;
-	background-color: #ffffffa1;
+	background-image: url('/img/dark.jpg');
 	background-size: cover;
 	background-position: 70%;
-	background-image: url('img/dark.jpg');
+	box-shadow: 0 0 15px 0 rgb(100, 100, 100);;
 }
 
 .main {

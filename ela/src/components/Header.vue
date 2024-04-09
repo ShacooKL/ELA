@@ -1,28 +1,34 @@
 <script setup>
 import {ref,computed,watch,onMounted,onUnmounted} from'vue'
 import Search from '@/components/Search.vue'
+
 const scrollY=ref(0)
 const show = ref(true)
+const backgroundColor = ref('#00000051')
 const isHead = computed(()=>{
-	return scrollY.value > 200
+	return scrollY.value < 200
 })
-watch(isHead, (newX) => {
+
+watch(isHead, () => {
 	show.value=false
+
 	setTimeout(() => {
-			show.value=true
+		if(!isHead.value)
+			backgroundColor.value = '#000000'
+		else
+			backgroundColor.value = '#00000051'
+		show.value=true
   }, 0); // 设置延迟一秒再显示
 })
 const updateWindowScrollHeight = () => {
 	scrollY.value = window.scrollY;
 };
+
 onMounted(() => {
-	// 初始化窗口滚动条高度
 	updateWindowScrollHeight();
-	// 监听滚动事件
 	window.addEventListener('scroll', updateWindowScrollHeight);
 });
 onUnmounted(() => {
-	// 在组件销毁时移除滚动事件监听
 	window.removeEventListener('scroll', updateWindowScrollHeight);
 });
 
@@ -30,7 +36,7 @@ onUnmounted(() => {
 
 <template>
 <Transition>
-	<div class="header-box" v-if="show">
+	<div class="header-box" v-if="show" :style="{backgroundColor:backgroundColor}">
 		<div class="search-container">
 			<Search />
 		</div>
@@ -53,7 +59,7 @@ onUnmounted(() => {
 	left: 0;
 	width: 100%;
 	height: 60px;
-	background-color: rgba(0, 0, 0, 0.317);
+	background-color: #00000089;
 	color:azure;
 	display: flex;
 	align-items: center;

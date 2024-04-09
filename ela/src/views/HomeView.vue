@@ -1,6 +1,7 @@
 <script setup>
 import BackgroundImg from '@/components/BackgroundImg.vue';
 import Header from '@/components/Header.vue'
+import Loading from '@/components/Loading.vue';
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import Header from '@/components/Header.vue'
 		Find your books
 	</div>
 	<div class="main-box">
+		<Loading></Loading>
 	</div>
 </template>
 

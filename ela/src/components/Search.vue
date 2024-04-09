@@ -13,7 +13,7 @@ const router = useRouter()
 function search(){
 	if(searchContent.value=='')
 		return
-	router.push({ name: 'searchBook', params: { searchContent: searchContent } })
+	router.push({ name: 'searchBook', params: { searchContent: searchContent.value } })
 }
 </script>
 

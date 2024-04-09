@@ -1,5 +1,5 @@
 <template>
-
+<BackgroundImg/>
 <div class="r-box">
     <div class="main">
 
@@ -37,6 +37,7 @@
 import {ref,computed} from 'vue'
 import Comment from '@/components/Comment.vue'
 import CommentInput from '@/components/CommentInput.vue'
+import BackgroundImg from '@/components/BackgroundImg.vue';
 const commentShow = ref(false)
 const mainWidth = ref(60)
 const commentWidth = ref(0)
