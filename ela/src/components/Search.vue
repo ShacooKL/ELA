@@ -28,7 +28,7 @@ input{
 	border-radius: 10px;
 	height: 40px;
 	background-color: rgba(36, 36, 36, 0.411);
-	border:1px solid white;;
+	border:1.5px solid white;;
 	box-sizing: border-box;
 	padding: 5px 10px 5px 10px;
 	flex-grow: 1;

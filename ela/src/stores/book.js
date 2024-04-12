@@ -10,29 +10,89 @@ export const useBookStore = defineStore('book', () => {
     author: '麦瑟尔夫',
     cover: '/img/dark.jpg'
   });
-  const bookList = ref([])
+  const bookList = ref([{
+    id: 1,
+    title: 'Book1',
+    author: '麦瑟尔夫',
+    cover: '/img/dark.jpg'
+  },{
+    id: 1,
+    title: 'Book1',
+    author: '麦瑟尔夫',
+    cover: '/img/dark.jpg'
+  },{
+    id: 1,
+    title: 'Book1',
+    author: '麦瑟尔夫',
+    cover: '/img/dark.jpg'
+  },{
+    id: 1,
+    title: 'Book1',
+    author: '麦瑟尔夫',
+    cover: '/img/dark.jpg'
+  }])
+
+  const recommendBooks = ref([])
+  const hotBooks = ref([])
+  const collection = ref([])
+  const currReading = ref([])
   async function queryBook(id) {
     try {
-      const bookData = await api.getBook(id);
-      book.value = bookData;
+      const bookData = await api.getBook(id)
+      book.value = bookData
     } catch (error) {
-      console.error('Error querying book:', error);
+      console.error('Error querying book:', error)
       // 处理错误情况
     }
   }
 	async function queryBooks(searchContent) {
     try {
-      const booksData = await api.getBooks(searchContent);
-      bookList.value = booksData;
+      const booksData = await api.getBooks(searchContent)
+      bookList.value = booksData
     } catch (error) {
-      console.error('Error querying book:', error);
+      console.error('Error querying book:', error)
+      // 处理错误情况
+    }
+  }
+  async function initBooks() {
+    try {
+      const booksData = await api.initHomeView();
+      recommendBooks.value = booksData.recommend
+      hotBooks.value = booksData.hot
+    } catch (error) {
+      console.error('Error initBooks:', error)
+      // 处理错误情况
+    }
+  }
+  async function getCollection() {
+    try {
+      const books= await api.getCollection();
+      collection.value = books
+    } catch (error) {
+      console.error('Error initBooks:', error)
+      // 处理错误情况
+    }
+  }
+  async function getCurrReading() {
+    try {
+      const books= await api.getCurrReading();
+      currReading.value = books
+    } catch (error) {
+      console.error('Error initBooks:', error)
       // 处理错误情况
     }
   }
   return {
     book,
 		bookList,
+    recommendBooks,
+    hotBooks,
+    collection,
+    currReading,
     queryBook,
-		queryBooks
+		queryBooks,
+    initBooks,
+    getCollection,
+    getCurrReading
   };
 });

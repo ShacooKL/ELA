@@ -14,13 +14,13 @@
 					<span>的相关结果</span>
 			</div>
 	</div>
-	<BookItem v-for = "book in bookStore.bookList" v-bind="book"/>
+	<BookItem v-if="!loading"   v-for = "book in bookStore.bookList" v-bind="book" :card="false"/>
 	<Loading v-model="loading"/>
 </div>
 </template>
 
 <script setup>
-import { ref,watch} from 'vue'
+import { ref,watch,computed} from 'vue'
 import Header from '@/components/Header.vue'
 import BookItem from '@/components/BookItem.vue'
 import BackgroundImg from '@/components/BackgroundImg.vue';
@@ -30,19 +30,20 @@ import { useRoute } from 'vue-router'
 const props = defineProps({
 	searchContent:String
 })
-const loading = ref(true)
+const loading = computed(()=>{
+	return bookStore.bookList.length==0
+})
 const bookStore = useBookStore()
-bookStore.queryBooks(props.searchContent)
-.then(() => {loading.value = false})
 const route = useRoute()
-const userData = ref()
 
-// 当参数更改时获取用户信息
+// 监听路由参数变化，重新加载数据
 watch(
-	() => route.params.searchContent,
-	async newSearchContent => {
-		userData.value = await fetchUser(newId)
-	}
+  () => route.params.searchContent,
+  async newSearchContent => {
+    props.searchContent = newSearchContent
+		bookStore.bookList=[]
+    bookStore.queryBooks(newSearchContent)
+  }
 )
 </script>
 

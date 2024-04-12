@@ -1,7 +1,12 @@
 <script setup>
 import BackgroundImg from '@/components/BackgroundImg.vue';
 import Header from '@/components/Header.vue'
-import Loading from '@/components/Loading.vue';
+import BookItem from '@/components/BookItem.vue'
+import { useBookStore } from '@/stores/book'
+import { useRouter } from 'vue-router'
+const bookStore = useBookStore()
+const router = useRouter()
+
 </script>
 
 <template>
@@ -12,18 +17,33 @@ import Loading from '@/components/Loading.vue';
 		Find your books
 	</div>
 	<div class="main-box">
-		<Loading></Loading>
+		<div class="item">
+			<div class="tip">
+				Recommend
+			</div>
+			<div class="flex">
+				<BookItem  v-for="book in bookStore.recommendBooks" v-bind="book" class="card" />
+			</div>
+		</div>
+		<div class="item">
+			<div class="tip">
+				Hot
+			</div>
+			<div class="flex">
+				<BookItem  v-for="book in bookStore.hotBooks" v-bind="book" class="card" />
+			</div>
+		</div>
+		
 	</div>
 </template>
 
 <style scoped>
 .main-box{
 	position: absolute;
-	width: 100%;
+	width: 80%;
 	min-height: 1000px;
-	background-color: #fbfbfb4e;
 	top: 260px;
-	left: 0;
+	left: 10%;
 }
 .word{
 	font-size: 70px;
@@ -34,5 +54,30 @@ import Loading from '@/components/Loading.vue';
 	left: 0;
 	text-align: center;
 
+}
+.item{
+	margin-bottom: 40px;
+}
+.flex{
+	display:flex;
+	min-width: 200px;
+	margin: 0 auto;
+	flex-wrap: wrap;
+	justify-content: normal;
+}
+.card{
+	width: 400px;
+}
+.tip{
+	line-height: 50px;
+	box-sizing: border-box;
+	height: 50px;
+	font-size: 25px;
+	padding-bottom: 20px;
+	padding-left: 20px;
+	color: rgb(252, 252, 252);
+	margin-bottom: 20px;
+	background: linear-gradient(to right, #3f464766, #e8dfce31);
+	border-radius: 5px;
 }
 </style>

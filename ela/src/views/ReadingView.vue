@@ -1,131 +1,95 @@
 <template>
-<BackgroundImg/>
-<div class="r-box">
-    <div class="main">
 
-
-    </div>
-    <div class="comment" v-if="commentShow">
-        <div class="c-box">
-            <div class="c-top">
-                <div class="word">
-                    评论
-                </div>
-                <div class="comments-num ">
-                    <span>{{ commentsNum }}</span><span>条评论</span>
-                </div>
-                
+    <div class="r-box">
+        <div class="pos"></div>
+        <div class="main" :style="{width:mainWidth}">
+            <div class="content" :style="{fontFamily:curFontFamily,fontSize:curFontSize+'px'}">
+               {{ content }}
             </div>
-            <div class="c-comments">
-                <Comment/><Comment/><Comment/><Comment/><Comment/><Comment/><Comment/><Comment/><Comment/><Comment/><Comment/><Comment/>
-            </div>
-            <div class="c-bottom">
-                <CommentInput class="comment-input"/>
-            </div>
-
+           
+                <ReadingSetting v-model:settingShow="settingShow" 
+                v-model:theme="curTheme" 
+                v-model:fontFamily="curFontFamily"
+                v-model:fontSize="curFontSize"
+                v-model:width="mainWidth"
+                />
+            
         </div>
+       
+        <Transition>
+            <CommentArae />
+        </Transition>
+        <ReadingSideBar v-model:theme="curTheme" v-model:settingShow="settingShow"/>
     </div>
-    <div class="side-bar" @click="commentsShowChange" :style="{right:sideBarR}">
-
-    </div>
-
-</div>
 
 </template>
 
 <script setup>
-import {ref,computed} from 'vue'
-import Comment from '@/components/Comment.vue'
-import CommentInput from '@/components/CommentInput.vue'
-import BackgroundImg from '@/components/BackgroundImg.vue';
-const commentShow = ref(false)
-const mainWidth = ref(60)
-const commentWidth = ref(0)
-const commentsNum = ref(999)
-
-const sideBarR = computed(()=>{
-    return 'calc( '+ (100-mainWidth.value)/2 + '% - 70px - ' + commentWidth.value/2 +'px )'
+import { ref, watch } from 'vue'
+import CommentArae from '@/components/CommentArae.vue'
+import ReadingSideBar from '@/components/ReadingSideBar.vue'
+import ReadingSetting from '@/components/ReadingSetting.vue'
+const curTheme = ref('')
+const curFontFamily = ref('黑体')
+const curFontSize = ref(20)
+const initWidth = '60%'
+const mainWidth = ref(initWidth)
+const content = ref(' 我是无敌暴龙战神 '.repeat(5000))
+const settingShow = ref(false)
+watch(curTheme,(newTheme)=>{
+    if(newTheme=='dark'){
+        document.documentElement.setAttribute('data-theme', "dark");
+    }
+        
+    else{
+        document.documentElement.setAttribute('data-theme', "");
+    }
 })
-function commentsShowChange(){
-    commentShow.value = !commentShow.value
-    if(commentWidth.value==0)
-        commentWidth.value=300
-    else
-        commentWidth.value=0
-}
+
 </script>
 
 <style scoped>
-.r-box{
+.pos{
+    width: 100px;
+    flex-shrink: 0;
+
+}
+.r-box {
     display: flex;
     justify-content: center;
     position: absolute;
-    width: 100%;
+    left: 0;
+    top: 0;
+    min-width: 100%;
     min-height: 100%;
-    
+    background-color: var(--bgc-1);
+   
 }
-.main{
+.main {
     min-height: 1000px;
-    width: 60%;
-    background-color: #c05e5e88;
-}
-.side-bar{
-    position: fixed;
-    right: 200px;
-    top: 15%;
-    width: 70px;
-    min-height: 50%;
-    background-color: #237389;
-}
-.comment{
-    width: 300px;
-    height: 100px;
-    background-color: #318d5700;
-}
-.c-box{
-    position: fixed;
-    height: 100%;
-    width: 300px;
-    background-color: #9fad219c;
-    display: flex;
-    flex-direction: column;
-}
-.c-top{
-    min-height: 100px;
-    width: 300px;
-    background-color: #b93ac456;
+    min-height: 2000px;
+    flex-shrink: 0;
+    min-width: 0px;
+    background-color: var(--page-1);
     position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: end;
-    justify-content: space-between;
 }
-.c-comments{
-    flex-grow: 1;
-    width: 300px;
-    background-color: #b75454;
-    overflow-y: scroll;
-    overflow-x: visible;
+.content{
+    word-wrap: break-word;
+    padding: 50px;
+    line-height: 2.5em;
+    letter-spacing: 0.2em;
+    color: var(--text-dark);
 }
-.c-bottom{
-    min-height: 100px;
-    width: 300px;
-    background-color: #96b32256;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.setting{
+    position: absolute;
 }
-.word{
-    font-size: 30px;
-    color: rgb(0, 0, 0);
-    margin-left: 10px;
-}
-.comments-num{
-    margin-right: 10px;
-}
-.comment-input{
-    width: 80%;
-    min-height: 30px;
+.v-enter-active
+ {
+  transition: opacity 0.5s ease;
 }
 
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 </style>

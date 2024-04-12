@@ -1,13 +1,23 @@
-import './assets/main.css'
-
-import { createApp } from 'vue'
+import './assets/ela.css';
+import { createApp} from 'vue'
 import { createPinia } from 'pinia'
+import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
-import router from './router'
-
+import { createPersistedState } from 'pinia-plugin-persistedstate'
+import ElementPlus from 'element-plus'
+import routes from './router'
 const app = createApp(App)
-
-app.use(createPinia())
+const pinia = createPinia()
+pinia.use(
+  createPersistedState({
+    storage: sessionStorage,
+  })
+)
+app.use(pinia)
+const router = createRouter({
+  history:createWebHistory(import.meta.BASE_URL),
+  routes:routes
+})
 app.use(router)
-
+app.use(ElementPlus,{size:'small',zIndex:3000})
 app.mount('#app')

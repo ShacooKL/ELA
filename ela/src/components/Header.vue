@@ -1,13 +1,19 @@
 <script setup>
 import {ref,computed,watch,onMounted,onUnmounted} from'vue'
 import Search from '@/components/Search.vue'
-
+import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router';
+const router = useRouter()
+const userStore = useUserStore()
 const scrollY=ref(0)
 const show = ref(true)
 const backgroundColor = ref('#00000051')
 const isHead = computed(()=>{
 	return scrollY.value < 200
 })
+function toPage(name,params){
+	router.push({name:name,params:params})
+}
 
 watch(isHead, () => {
 	show.value=false
@@ -38,12 +44,12 @@ onUnmounted(() => {
 <Transition>
 	<div class="header-box" v-if="show" :style="{backgroundColor:backgroundColor}">
 		<div class="search-container">
-			<Search />
+			<Search/>
 		</div>
 		
 		<div class="menu">
-			<span>首页</span>
-			<span>个人中心</span>
+			<span  @click="toPage('home')">首页</span>
+			<span @click="toPage('userHome',{id:userStore.id})">个人中心</span>
 			<span>个人图书馆</span>
 		</div>
 	</div>
@@ -59,7 +65,7 @@ onUnmounted(() => {
 	left: 0;
 	width: 100%;
 	height: 60px;
-	background-color: #00000089;
+	background-color: #000000;
 	color:azure;
 	display: flex;
 	align-items: center;
@@ -71,12 +77,12 @@ onUnmounted(() => {
 	height: 100%;
 	position: absolute;
 	left: 30%;
-	padding-top: 10px
+	padding-top: 20px
 }
 .menu{
 	height: 100%;
 }
-span{
+.menu span{
 	display: inline-block;
 	min-width: 100px;
 	color:azure;
@@ -89,6 +95,14 @@ span{
 span:hover{
 	background-color: #3433336c;
 }
+.menu a{
+	color: azure;
+	
+}
+.menu a:hover{
+	background-color: #ffffff00;
+}
+
 .v-enter-active,
 .v-leave-active {
   transition: opacity 1.0s ease;
