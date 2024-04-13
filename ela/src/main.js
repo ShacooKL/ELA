@@ -16,7 +16,11 @@ pinia.use(
 app.use(pinia)
 const router = createRouter({
   history:createWebHistory(import.meta.BASE_URL),
-  routes:routes
+  routes:routes,
+  scrollBehavior(to, from, savedPosition) {
+    // 始终滚动到顶部
+    return { top: 0 }
+  }
 })
 app.use(router)
 app.use(ElementPlus,{size:'small',zIndex:3000})

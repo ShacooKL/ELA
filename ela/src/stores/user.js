@@ -4,18 +4,20 @@ import * as api from '@/api'
 export const useUserStore = defineStore('user', () => {
 	const id = ref(0)
 	const name = ref('ShacooKL')
-	const avatar = ref('/img/profile')
+	const avatar = ref('/img/profile') //头像路径
+	const email = ref('2801022619@qq.com')
 	const isLogin = ref(false)
-	const loginWidowShow = ref(true)
-	const friends = ref([])
-	async function login(name, password) {
+	const loginWidowShow = ref(true)	//登录窗口显示
+	const friends = ref([]) //好友列表
+	async function login(username, password) {
 		try {
-			const data = await api.login(name, password)
+			const data = await api.login(username, password)
 			if (data.state) {
 				id.value = data.id
-				isLogin.value = true
 				avatar.value = data.avatar
-				name.value = name.value
+				email.value = data.email
+				name.value = data.name
+				isLogin.value = true
 				return true
 			} else {
 				return false
@@ -40,7 +42,7 @@ export const useUserStore = defineStore('user', () => {
 		//logout api
 		isLogin = false
 	}
-	return { id, name, isLogin, loginWidowShow, friends, avatar, login, getFriends }
+	return { id, name, avatar, email, isLogin, loginWidowShow, friends, login, getFriends }
 },
 	{
 		persist: true,

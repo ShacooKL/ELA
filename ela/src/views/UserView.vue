@@ -25,16 +25,24 @@
 </template>
 
 <script setup>
+import {watch} from'vue'
 import Header from '@/components/Header.vue'
 import BackgroundImg from '@/components/BackgroundImg.vue'
 import UserItem from '@/components/UserItem.vue'
-import { useRouter } from 'vue-router'
+import { useRouter,useRoute } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 const router = useRouter()
+const route = useRoute()
+const userStore = useUserStore()
 function handleClick(tab, event) {
 	router.push({name:tab.props.name})
-
 }
-
+watch(
+  () => route.params.id,
+  async newId => {
+		
+  }
+)
 </script>
 
 <style scoped>

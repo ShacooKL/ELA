@@ -16,6 +16,12 @@
     <div class="input">
       <input type="password">
     </div>
+    <div class="tip">
+      邮箱
+    </div>
+    <div class="input">
+      <input  v-model="email">
+    </div>
     <div class="btn">
       <button class="y-btn" @click="commit">确认</button><button @click="reset">重置</button>
     </div>
@@ -29,11 +35,14 @@ import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
 const name = ref(userStore.name)
+const email = ref(userStore.email)
 function commit() {
   userStore.name = name.value
+  userStore.email = email.value
 }
 function reset() {
   name.value = userStore.name
+  email.value = userStore.email
 }
 </script>
 

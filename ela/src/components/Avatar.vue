@@ -1,23 +1,27 @@
 <template>
-<div class="avatar-box" :style="{ height:size+'px',width:size+'px'}">
+<div class="avatar-box" :style="{ height:size+'px',width:size+'px'}" @click="router.push({name:'user',params:{id:userId}})">
 	<img :src="avatar" alt="Avatar" class="avatar">
 </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
 defineProps({
 	avatar:{
 		type:String,
 		default:'/img/profile.jpg'
 	},
-	size:Number
+	size:Number,
+	userId:Number
 })
+const router = useRouter()
 </script>
 
 <style scoped>
 .avatar-box{
 	overflow: hidden;
   border-radius: 50%; 
+	cursor: pointer;
 }
 .avatar {
   width: 100%; /* 图片宽度与容器相同 */

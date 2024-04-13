@@ -60,13 +60,14 @@ const router = useRouter()
 }
 .flex{
 	display:flex;
-	min-width: 200px;
+
 	margin: 0 auto;
 	flex-wrap: wrap;
 	justify-content: normal;
 }
 .card{
-	width: 400px;
+	box-sizing: border-box;
+	width: 50%;
 }
 .tip{
 	line-height: 50px;

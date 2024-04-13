@@ -8,8 +8,10 @@ import UserHome from '@/components/UserHome.vue'
 import UserCollection from '@/components/UserCollection.vue'
 import Friends from '@/components/Friends.vue'
 import Setting from '@/components/Setting.vue'
+import BookView from '@/views/BookView.vue'
 import  {useBookStore}  from '@/stores/book'
 import { useUserStore } from '@/stores/user'
+import { useReadingStore } from '@/stores/reading'
 const routes = [
   {
     path: '/',
@@ -28,18 +30,33 @@ const routes = [
     beforeEnter: (to, from) => {
       const bookStore = useBookStore()
       bookStore.bookList=[]
-      bookStore.queryBooks(to.params.searchContent)
+      bookStore.getBooks(to.params.searchContent)
     },
   },
   {
     path: '/reading/:id',
     name: 'reading',
     component: ReadingView,
+    beforeEnter: (to, from) => {
+      const readingStore = useReadingStore()
+      if(readingStore.book ==null)
+        return {name:'home'}
+      readingStore.getChapter(to.params.id)
+    },
   },
   {
     path:'/register',
     name: 'register',
     component: RegisterView,
+  },
+  {
+    path:'/book/:id',
+    name:'book',
+    component:BookView,
+    beforeEnter: (to, from) => {
+      const bookStore = useBookStore()
+      bookStore.getBook(to.params.id)
+    },
   },
   {
     path:'/user/:id',
@@ -49,7 +66,7 @@ const routes = [
       const userStore = useUserStore()
       if(!userStore.isLogin){
         userStore.loginWidowShow = true
-        return false
+        return {name:'home'}
     }
     },
     children:[

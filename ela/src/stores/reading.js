@@ -1,74 +1,14 @@
-import { ref} from 'vue'
+import { ref,watch} from 'vue'
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
+import * as api from '@/api'
 export const useReadingStore = defineStore('reading', () => {
-	const book = ref({
-		id :1,
-		authorId:1,
-		authorName:'author',
-		cover:'/img/dark.jpg'
-	})
-  const chapter = ref({
-		chapter_order : 1,
-		title:'title',
-		content:'content '.repeat(20)
-	})
-	const color = ref({
-			ackgroundColor:"#E6E1D6",
-			pageColor:"#F4F0E7",
-			color:"#181716",
-			lighter:"#f9f5ea"
-	})
-	const theme = ref({
-		dark:{
-			backgroundColor:"#0A0A0A",
-			pageColor:"#111111",
-			color:"#A0A0A0",
-			lighter:"#1a1a1a"
-		},
-		day:{
-			backgroundColor:"#E6E1D6",
-			pageColor:"#F4F0E7",
-			color:"#181716",
-			lighter:"#f9f5ea"
-		}
-	})
+	const book = ref()
+  const chapter = ref()
 	const commentShow = ref(false)
-	const comments = ref([
-		{
-			userId:1,
-			userName:'超级无敌暴龙战士',
-			content:'超级无敌暴龙战士哈哈哈哈哈哈哈'.repeat(20)
-		},
-		{
-			userId:1,
-			userName:'超级无敌暴龙战士',
-			content:'超级无敌暴龙战士哈哈哈哈哈哈哈'.repeat(20)
-		},
-		{
-			userId:1,
-			userName:'超级无敌暴龙战士',
-			content:'超级无敌暴龙战士哈哈哈哈哈哈哈'.repeat(20)
-		},
-		{
-			userId:1,
-			userName:'超级无敌暴龙战士',
-			content:'超级无敌暴龙战士哈哈哈哈哈哈哈'.repeat(20)
-		},
-		{
-			userId:1,
-			userName:'超级无敌暴龙战士',
-			content:'超级无敌暴龙战士哈哈哈哈哈哈哈'.repeat(20)
-		},
-		{
-			userId:1,
-			userName:'超级无敌暴龙战士',
-			content:'超级无敌暴龙战士哈哈哈哈哈哈哈'.repeat(20)
-		},
-
-	])
+	const comments = ref([])
  
-	function postComment(comment){
+	async function postComment(comment){
 		const userStore = useUserStore()
 		if(!userStore.isLogin){
 			userStore.loginWidowShow =true
@@ -80,5 +20,33 @@ export const useReadingStore = defineStore('reading', () => {
 			content:comment
 		})
 	}
-  return { book ,chapter,comments,commentShow,postComment };
+	async function getChapter(id) {
+    try {
+      const data = await api.getChapter(id)
+     	chapter.value = data 
+    } catch (error) {
+      console.error('Error getChapter:', error)
+      // 处理错误情况
+    }
+  }
+	async function changeCommentShow(){
+		
+		if(!commentShow.value){
+			await getComments(book.id)
+		}
+		commentShow.value = !commentShow.value
+	}
+	async function getComments(id){
+		try {
+      const data = await api.getComments(id)
+     	comments.value = data 
+    } catch (error) {
+      console.error('Error getChapter:', error)
+      // 处理错误情况
+    }
+	}
+
+  return { book ,comments,commentShow,chapter,postComment,getChapter,changeCommentShow};
+},{
+  persist:true
 })

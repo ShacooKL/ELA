@@ -1,7 +1,7 @@
 <template>
 <div class="user-item-box">
-	<div class="avatar">
-		<Avatar :size="68"/>
+	<div class="avatar" >
+		<Avatar :size="68" :userId="userId"/>
 	</div>
 	<div class="info">
 		<div class="name">
@@ -23,7 +23,7 @@
 
 <script setup>
 import Avatar from './Avatar.vue'
-defineProps({
+const props = defineProps({
 	self:{
 		type:Boolean,
 		default:false
@@ -31,8 +31,8 @@ defineProps({
 	followed:{
 		type:Boolean,
 		default:false
-	}
-
+	},
+	userId:Number
 })
 </script>
 

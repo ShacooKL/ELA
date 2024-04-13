@@ -1,6 +1,6 @@
 <template>
 	<div class="friends-box">
-		<UserItem :followed="true" :self="false" v-for="friend in userStore.friends" class="item"/>
+		<UserItem :followed="true" :self="false" v-for="friend in userStore.friends" class="item" :userId="friend.id"/>
 	</div>
 
 </template>

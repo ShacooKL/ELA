@@ -1,6 +1,6 @@
 <template>
 <div class="comment-input-box">
-    <Avatar :size="40" class="avatar"/>
+    <Avatar :size="40" class="avatar" :userId="userStore.id"/>
     <div class="input-area"  @click="expand" :style="{maxHeight:expandHeight+'px'}" >
         <textarea ref="textarea" v-model="input"/>
         <Transition>
@@ -23,6 +23,8 @@
 import {ref,watch, nextTick} from 'vue'
 import Avatar from './Avatar.vue';
 import { useReadingStore } from '@/stores/reading';
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore()
 const readingStore = useReadingStore()
 const textarea = ref(null)
 const isExpand = ref(false)

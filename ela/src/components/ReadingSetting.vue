@@ -57,6 +57,7 @@
 <script setup>
 import { watch } from 'vue'
 const settingShow = defineModel('settingShow')
+
 const curTheme = defineModel('theme')
 const curFontFamily = defineModel('fontFamily')
 const curFontSize = defineModel('fontSize')

@@ -3,8 +3,22 @@
   <div class="main">
     <span  class="word" v-if="show[0]">{{ disText[0] }}</span>
     <span  class="word" v-if="show[1]">{{ disText[1] }}</span>
-    <RegInputItem v-if="show[2]" :tips="'请输入用户名'" v-model:nextShow="show[3]" v-model:input="name"/>
-    <RegInputItem v-if="show[3]" :tips="'请输入密码'" v-model:nextShow="toRegister" v-model:input="password"/>
+
+    <RegInputItem v-if="show[2]" :tips="'请输入用户名'" :type="'name'" 
+      v-model:nextShow="show[3]" v-model:input="name"
+      v-model:tips="tips" v-model:valid="valid[0]"
+    />
+
+    <RegInputItem v-if="show[3]" :tips="'请输入密码'" :type="'password'" 
+      v-model:nextShow="show[4]" v-model:input="password" 
+      v-model:tips="tips" v-model:valid="valid[1]"
+    />
+
+    <RegInputItem v-if="show[4]" :tips="'请输入邮箱'" :type="'email'"
+      v-model:nextShow="toRegister" v-model:input="email"
+      v-model:tips="tips" v-model:valid="valid[2]"
+    />
+
     <div class="result" v-if="sucess">注册成功  <a href="/">去主页</a></div>
     <div class="tips">
       {{ tips }}
@@ -17,12 +31,14 @@
 import { reactive,ref,watch} from 'vue'
 import BackgroundImg from '@/components/BackgroundImg.vue'
 import RegInputItem from '@/components/RegInputItem.vue';
-
+import {register} from '@/api' 
 const disText = reactive(['',''])
-const show = reactive([false,false,false,false])
+const show = reactive([false,false,false,false,false])
 const tips=ref('these are some tips 撒打算')
 const name = ref('')
 const password = ref('')
+const email = ref('')
+const valid = ref([false,false,false])
 const toRegister = ref(false)
 const sucess = ref(false)
 const text = [
@@ -46,8 +62,13 @@ async function startTyping() {
     show[2]=true
 }
 startTyping();
+
+
+//满足条件 开始注册
 watch(toRegister,async()=>{
-  sucess.value=true
+  if(valid.value[0]&&valid.value[1]&&valid.value[2])
+    sucess.value = await register({name:name.value,password:password.value,email:email.value})
+ 
 })
 </script>
 

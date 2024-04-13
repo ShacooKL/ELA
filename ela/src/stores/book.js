@@ -1,42 +1,19 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
+import { useReadingStore } from './reading';
 import * as api from '@/api';
 
 export const useBookStore = defineStore('book', () => {
   // 当前书
-  const book = ref({
-    id: 1,
-    title: 'Book1',
-    author: '麦瑟尔夫',
-    cover: '/img/dark.jpg'
-  });
-  const bookList = ref([{
-    id: 1,
-    title: 'Book1',
-    author: '麦瑟尔夫',
-    cover: '/img/dark.jpg'
-  },{
-    id: 1,
-    title: 'Book1',
-    author: '麦瑟尔夫',
-    cover: '/img/dark.jpg'
-  },{
-    id: 1,
-    title: 'Book1',
-    author: '麦瑟尔夫',
-    cover: '/img/dark.jpg'
-  },{
-    id: 1,
-    title: 'Book1',
-    author: '麦瑟尔夫',
-    cover: '/img/dark.jpg'
-  }])
-
+  const book = ref({})
+  const bookList = ref([])
   const recommendBooks = ref([])
   const hotBooks = ref([])
   const collection = ref([])
   const currReading = ref([])
-  async function queryBook(id) {
+
+
+  async function getBook(id) {
     try {
       const bookData = await api.getBook(id)
       book.value = bookData
@@ -45,7 +22,12 @@ export const useBookStore = defineStore('book', () => {
       // 处理错误情况
     }
   }
-	async function queryBooks(searchContent) {
+  async function readBook(id){
+    await getBook(id)
+    const readingStore = useReadingStore()
+    readingStore.book = ref(book.value)
+  }
+	async function getBooks(searchContent) {
     try {
       const booksData = await api.getBooks(searchContent)
       bookList.value = booksData
@@ -84,15 +66,23 @@ export const useBookStore = defineStore('book', () => {
   }
   return {
     book,
-		bookList,
+    bookList,
     recommendBooks,
     hotBooks,
     collection,
     currReading,
-    queryBook,
-		queryBooks,
+    getBook,
+		getBooks,
     initBooks,
     getCollection,
-    getCurrReading
+    getCurrReading,
+    readBook
   };
-});
+  
+},
+{
+  persist: {
+    paths:['book']
+  }
+}
+);

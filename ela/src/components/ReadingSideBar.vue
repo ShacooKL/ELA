@@ -1,7 +1,7 @@
 <template>
 <div class="side-bar">
 		<div class="tool-btn">
-				<div class="btn">
+				<div class="btn"  @click="chapterShow=!chapterShow">
 						<svg viewBox="0 0 1024 1024"><path d="M341.312 170.688H896V256H341.312V170.688zM192 277.312a64 64 0 1 1 0-128 64 64 0 0 1 0 128zM192 576a64 64 0 1 1 0-128 64 64 0 0 1 0 128z m0 294.4a64 64 0 1 1 0-128 64 64 0 0 1 0 128z m149.312-401.088H896v85.376H341.312V469.312z m0 298.688H896v85.312H341.312V768z" ></path></svg>
 						目录
 				</div>
@@ -11,11 +11,11 @@
 						<svg v-if="true" viewBox="0 0 1024 1024" ><path d="M512 99.296a412.704 412.704 0 1 1 0 825.408 412.704 412.704 0 0 1 0-825.408zM191.008 512a320.992 320.992 0 1 0 641.984 0 320.992 320.992 0 0 0-641.984 0z m436.687-113.815a45.856 45.856 0 0 1 64.84 64.887l-178.7 178.655a45.718 45.718 0 0 1-33.705 13.39 45.764 45.764 0 0 1-33.52-13.436L332.84 527.912a45.856 45.856 0 1 1 64.841-64.886l82.54 82.586 147.474-147.427z"></path></svg>
 						<span  v-if="true">在书架</span>
 				</div>
-				<div class="btn"  @click="readingStore.commentShow = !readingStore.commentShow">
+				<div class="btn"  @click="toBook" >
 						<svg viewBox="0 0 1024 1024" ><path d="M469.333333 810.666667V341.333333a128 128 0 0 0-128-128H128v597.333334h341.333333z m42.666667-597.333334a212.992 212.992 0 0 1 170.666667-85.333333h298.666666v768H42.666667V128h298.666666c69.802667 0 131.754667 33.493333 170.666667 85.333333z m42.666667 128v469.333334h341.333333V213.333333h-213.333333a128 128 0 0 0-128 128z"></path></svg>
 						详情页
 				</div>
-				<div class="btn"  @click="readingStore.commentShow = !readingStore.commentShow">
+				<div class="btn"  @click="readingStore.changeCommentShow">
 					<svg viewBox="0 0 1076 1024"><path d="M1007.916144 0.02187H66.926943A66.926943 66.926943 0 0 0 0 66.948813v643.499453a66.926943 66.926943 0 0 0 66.926943 66.926944h208.141823l4.349997 3.011997 394.532664 234.242801a52.202956 52.202956 0 0 0 25.766979 7.696993c19.073984 0 33.462972-15.058987 33.462971-41.159965l60.233949-205.464825h216.173816a66.926943 66.926943 0 0 0 66.925943-66.926943V66.948813a66.926943 66.926943 0 0 0-68.599941-66.926943z m0 710.426396H773.672343a33.462972 33.462972 0 0 0-31.455974 22.419981l-15.726986 44.506963-61.572948 159.619864-256.998782-159.619864-52.536955-30.451975-63.914946-36.474969H66.925943v-643.499453h940.989201z" ></path><path d="M197.098833 389.200539a66.926943 66.926943 0 1 0 133.853886 0 66.926943 66.926943 0 1 0-133.853886 0zM468.486602 389.200539a66.926943 66.926943 0 1 0 133.853886 0 66.926943 66.926943 0 1 0-133.853886 0zM739.539372 389.200539a66.926943 66.926943 0 1 0 133.853886 0 66.926943 66.926943 0 1 0-133.853886 0z" ></path></svg>
 						评论
 				</div>
@@ -43,12 +43,18 @@
 
 <script setup>
 import { useReadingStore } from '@/stores/reading'
+import { useRouter } from 'vue-router';
 const readingStore = useReadingStore()
 const settingShow = defineModel('settingShow')
+const chapterShow = defineModel('chapterShow')
 const curTheme = defineModel('theme')
-
+const router = useRouter()
 function changeTheme(theme){
 		curTheme.value =theme
+}
+function toBook(){
+	router.push({name:'book',params:{id:readingStore.book.id}})
+
 }
 </script>
 

@@ -1,11 +1,10 @@
 <template>
 <div class="bi-box">
-			<div class="cover">
+			<div class="cover" @click="toBook">
 				<img :src="cover" alt="cover" :class="{'zoomed':zoom}"  @mouseover="zoom=true" @mouseleave="zoom=false">
-				
 			</div>
 		<div class="info">
-				<div class="title">
+				<div class="title" @click="toBook">
 						{{title}}
 				</div>
 				<div class="author">
@@ -21,8 +20,8 @@
 
 		</div>
 		<div class="btn" v-if="!card">
-			<button class="readBtn">开始阅读</button>
-			<button class="cltBtn">加入收藏</button>
+			<button class="readBtn"  @click="toRead">开始阅读</button>
+			<button class="cltBtn" @click="collect">加入收藏</button>
 		</div>
 </div>
 
@@ -31,7 +30,9 @@
 
 <script setup>
 import {ref} from'vue'
-defineProps({
+import { useRouter } from 'vue-router'
+import { useBookStore } from '@/stores/book';
+const props = defineProps({
 	id:Number,
 	title:String,
 	author:String,
@@ -42,6 +43,16 @@ defineProps({
 	}
 })
 const zoom = ref(false)
+const router = useRouter()
+const bookStore = useBookStore()
+function toBook(){
+	router.push({name:'book',params:{id:props.id}})
+}
+async function toRead(){
+	await bookStore.readBook(props.id)
+	router.push({name:'reading',params:{id:bookStore.book.chapters[0].id}})
+}
+
 </script>
 
 <style scoped>
@@ -80,7 +91,10 @@ img{
 .title{
 	font-size: 20px;
 	color: aliceblue;
-
+	cursor: pointer;
+}
+.title:hover{
+	color: rgb(199, 200, 200);
 }
 .author{
 	font-size: 15px;
@@ -90,7 +104,7 @@ img{
 	width: 300px;
 	margin-left: 20px;
 	display: flex;
-	flex-wrap: wrap-reverse;
+	flex-wrap: wrap;
 	align-content: flex-start;
 	flex-direction: row;
 	line-height: 30px;
@@ -99,6 +113,7 @@ img{
 .tag{
 	color: #ebebeb;
 	min-width: 50px;
+
 	text-align: center;
 	border: 1px solid rgb(122, 123, 123);
 	margin-right: 20px;

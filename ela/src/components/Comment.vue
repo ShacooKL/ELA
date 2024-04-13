@@ -2,7 +2,7 @@
 
 <div class="comment-box">
     <div class="avatar">
-        <Avatar :size="30"/>
+        <Avatar :size="30" :userId="userId"/>
     </div>
     <div class="main" @mouseover="dislikeShow=true" @mouseout="dislikeShow=false">
         <div class="username">
@@ -36,10 +36,13 @@
 <script setup>
 import {ref} from 'vue'
 import Avatar from './Avatar.vue';
-defineProps({
+const props = defineProps({
+    commentId:Number,
+    userId:Number,
     userName:String,
     content:String
 })
+
 const dislikeShow = ref(false)
 const likes = ref(999)
 </script>
