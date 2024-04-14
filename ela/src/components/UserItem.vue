@@ -103,12 +103,12 @@ const props = defineProps({
 	height: 40px;
 	border-radius: 5px;
 	border: none;
-	background-color: #139cca;
+	background-color: #0c75ae;
 	color: #ffffff;
 	cursor: pointer;
 }
 .function button:hover{
-	background-color: #1ba0cc;
+	background-color: #0f82c0;
 }
 .function .d-btn{
 	background-color: #dadada;

@@ -61,13 +61,19 @@ const routes = [
   {
     path:'/user/:id',
     name: 'user',
+    redirect: to => {
+      return `/user/${to.params.id}/home`; // 使用动态参数构建重定向路径
+    },
     component: UserView,
     beforeEnter: (to, from) => {
       const userStore = useUserStore()
+     
       if(!userStore.isLogin){
         userStore.loginWidowShow = true
         return {name:'home'}
-    }
+      }
+      
+     
     },
     children:[
       {

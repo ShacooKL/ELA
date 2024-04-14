@@ -15,7 +15,7 @@
 	<div class="chapter item">
 			<span>章节</span>
 			<div class="list">
-				<a  v-for="chapter in bookStore.book.chapters" :href="'/reading/'+chapter.id">{{chapter.title}}</a>
+				<router-link v-for="chapter in bookStore.book.chapters" :to="'/reading/'+chapter.id">{{chapter.title}}</router-link>
 			</div>
 	</div>
 </div>
@@ -32,11 +32,10 @@ import { onBeforeRouteLeave } from 'vue-router'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const bookStore = useBookStore()
-onBeforeRouteLeave((to, from) => {
+onBeforeRouteLeave(async(to, from) => {
 	if(to.path.match(/^\/reading\/\d+$/)){
-		bookStore.readBook(bookStore.book.id)
+		await bookStore.readBook(bookStore.book.id)
 	}
-		console.log(to.path)
 })
 </script>
 

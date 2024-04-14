@@ -5,14 +5,14 @@
 	<div class="main">
 		<div class="top">
 				<div class="info">
-					<UserItem :self="true"/>
+					<UserItem :self="userStore.id==id"/>
 				</div>
 				<div class="menu">
-					<el-tabs  @tab-click="handleClick" >
+					<el-tabs  @tab-click="handleClick" v-model="menuSelected" >
 					<el-tab-pane label="Home" name="userHome" ></el-tab-pane>
 					<el-tab-pane label="Collection" name="userCollection" ></el-tab-pane>
 					<el-tab-pane label="Friends" name="friends"></el-tab-pane>
-					<el-tab-pane label="Setting" name="setting"></el-tab-pane>
+					<el-tab-pane label="Setting" name="setting" v-if="userStore.id==id"></el-tab-pane>
 				</el-tabs>
 				</div>
 		</div>
@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import {watch} from'vue'
+import {watch,ref} from'vue'
 import Header from '@/components/Header.vue'
 import BackgroundImg from '@/components/BackgroundImg.vue'
 import UserItem from '@/components/UserItem.vue'
@@ -34,13 +34,16 @@ import { useUserStore } from '@/stores/user'
 const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
+const menuSelected = ref(1)
+const id = ref(route.params.id)
 function handleClick(tab, event) {
 	router.push({name:tab.props.name})
 }
 watch(
   () => route.params.id,
   async newId => {
-		
+		menuSelected.value = 1
+		id.value = newId
   }
 )
 </script>

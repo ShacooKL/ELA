@@ -6,7 +6,7 @@
             <div class="chapter" v-if="chapterShow">
                 章节
                 <div class="list">
-                    <a v-for="chapter in readingStore.book.chapters" :href="'/reading/' + chapter.id">{{ chapter.title }}</a>
+                    <router-link  v-for="chapter in readingStore.book.chapters" :to="'/reading/' + chapter.id">{{ chapter.title }}</router-link>
                 </div>
             </div>
             <div class="content" :style="{ fontFamily: curFontFamily, fontSize: curFontSize + 'px' }">
@@ -30,6 +30,7 @@ import CommentArae from '@/components/CommentArae.vue'
 import ReadingSideBar from '@/components/ReadingSideBar.vue'
 import ReadingSetting from '@/components/ReadingSetting.vue'
 import { useReadingStore } from '@/stores/reading'
+import { onBeforeRouteUpdate } from 'vue-router'
 const readingStore = useReadingStore()
 
 const curTheme = ref('')
@@ -48,6 +49,10 @@ watch(curTheme, (newTheme) => {
     else {
         document.documentElement.setAttribute('data-theme', "");
     }
+})
+onBeforeRouteUpdate(async(to, from) => {
+    readingStore.commentShow=false
+    chapterShow.value=false
 })
 
 </script>
