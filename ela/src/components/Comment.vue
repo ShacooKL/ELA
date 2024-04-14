@@ -40,11 +40,11 @@ const props = defineProps({
     commentId:Number,
     userId:Number,
     userName:String,
-    content:String
+    content:String,
+    likes:Number
 })
 
 const dislikeShow = ref(false)
-const likes = ref(999)
 </script>
 
 <style scoped>

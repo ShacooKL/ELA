@@ -2,10 +2,12 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import { useReadingStore } from './reading';
 import * as api from '@/api';
+import Library from '@/class';
+const { Comment, Chapter, Book } = Library;
 
 export const useBookStore = defineStore('book', () => {
   // 当前书
-  const book = ref({})
+  const book = ref({... new Book()})
   const bookList = ref([])
   const recommendBooks = ref([])
   const hotBooks = ref([])

@@ -9,9 +9,13 @@ import UserCollection from '@/components/UserCollection.vue'
 import Friends from '@/components/Friends.vue'
 import Setting from '@/components/Setting.vue'
 import BookView from '@/views/BookView.vue'
+import ReadingExperience from '@/components/ReadingExperience.vue'
+import ReadingExpList from '@/components/ReadingExpList.vue'
+import ReadingExpItem from '@/components/ReadingExpItem.vue'
 import  {useBookStore}  from '@/stores/book'
 import { useUserStore } from '@/stores/user'
 import { useReadingStore } from '@/stores/reading'
+
 const routes = [
   {
     path: '/',
@@ -121,6 +125,42 @@ const routes = [
         path:'setting',
         name:'setting',
         component:Setting
+      },
+      {
+        path:'readingExp',
+        name:'readingExp',
+        // redirect:'readingExp/readingExpItem',
+        component:ReadingExperience,
+        children:[
+          {
+            path:'readingExpList',
+            name:'readingExpList',
+            component:ReadingExpList,
+            beforeEnter: (to, from) => {
+              const userStore = useUserStore()
+              if(!userStore.isLogin){
+                userStore.loginWidowShow = true
+                return false
+              }
+              const readingStore = useReadingStore()
+              readingStore.getExpList()
+            }
+          },
+          {
+            path:'readingExpItem/:expId',
+            name:'readingExpItem',
+            component:ReadingExpItem,
+            beforeEnter: (to, from) => {
+              const userStore = useUserStore()
+              if(!userStore.isLogin){
+                userStore.loginWidowShow = true
+                return false
+              }
+              const readingStore = useReadingStore()
+              readingStore.getExp(to.params.expId)
+            }
+          },
+        ]
       },
    
    

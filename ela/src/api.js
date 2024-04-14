@@ -1,6 +1,7 @@
 // api.js
 import axios from 'axios';
-import { emitChangeFn } from 'element-plus';
+import Library from '@/class';
+const { Comment, Chapter, Book,User,ReadingExp } = Library;
 
 const API_BASE_URL = 'http://localhost:8888/Web';
 
@@ -22,7 +23,7 @@ export const login = (name,password) => {
     setTimeout(() => {
       // 模拟异步操作成功，返回数据
       if(password =='123')
-        resolve({state:true,id:55210919,name:'ShacooKL',avatar:'/img/profile.jpg',email:'2801022619@qq.com'});
+        resolve({state:true,id:55210919,name:name,avatar:'/img/profile.jpg',email:name+'@qq.com'});
       else
         resolve({state:false})
       // 或者模拟异步操作失败y
@@ -43,7 +44,7 @@ export const getUser = (identity)=>{//identity = {id:id,name:name} 用于查询�
     setTimeout(() => {
       // 模拟异步操作成功，返回数据
       if(identity.name =='a')
-        resolve({id:55210919,name:'ShacooKL',avatar:'/img/profile.jpg'});
+        resolve({... new User(55210919,'ShacooKL','/img/profile.jpg')});
       else
         resolve(null)
       // 或者模拟异步操作失败y
@@ -59,8 +60,8 @@ export const initHomeView = () => {
       const rec = []
       const hot = []
       for(let i=0;i<10;i++){
-        rec.push({id:i, title: 'Book Title', author: 'Author Name',cover:'/img/cover1.jpg' })
-        hot.push({ id:i, title: 'Book Title', author: 'Author Name',cover:'/img/bgc1.jpg' })
+        rec.push({... new Book(i,  'Book Title'+i, 'Author Name'+i,'/img/cover1.jpg' )})
+        hot.push({... new Book( i,  'Book Title'+i, 'Author Name'+i,'/img/bgc1.jpg' )})
       }
        
       resolve({
@@ -76,9 +77,8 @@ export const getCollection = ()=>{
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const collection = []
-    
       for(let i=0;i<10;i++)
-        collection .push({id:i, title: 'Book Title', author: 'Author Name',cover:'/img/bgc3.png' })
+        collection .push({... new Book(i, 'Book Title'+i, 'Author Name'+i,'/img/bgc3.png' )})
       resolve(collection);
       // reject(new Error('Failed to fetch book.'));
     }, 50); 
@@ -89,7 +89,7 @@ export const getCurrReading = ()=>{
     setTimeout(() => {
       const books = []
       for(let i=0;i<10;i++)
-        books.push({id:i, title: 'Book Title', author: 'Author Name',cover:'/img/bgc2.jpeg' })
+        books.push({...new Book(i, 'Book Title'+i, 'Author Name'+i,'/img/bgc2.jpeg' )})
       resolve(books);
       // reject(new Error('Failed to fetch book.'));
     }, 50); 
@@ -100,7 +100,7 @@ export const getFriends = (id)=>{
     setTimeout(() => {
       const users = []
       for(let i=0;i<10;i++)
-        users.push({id:i,cover:"/img/profile.jpg"})
+        users.push({... new User(i,'user_'+i,'/img/profile.jpg')})
       resolve(users);
       // reject(new Error('Failed to fetch book.'));
     }, 50); 
@@ -122,19 +122,20 @@ export const getBook = (id) => {
           title:'第'+i+'次回溯 '
         })
       }
+      const book = {... new Book( 
+        (Number)(id),
+        'Book Title'+id,
+       'Author Name'+id,
+       '/img/cover1.jpg' ,
+        'XX出版社',
+        '123456-654321',
+        '1979-01-01',
+        999,
+        999,
+        chapters
+        )}
       // 模拟异步操作成功，返回数据
-      resolve({  
-        id:(Number)(id),
-        title: 'Book Title',
-        author: 'Author Name',
-        cover:'/img/cover1.jpg' ,
-        publisher:'XX出版社',
-        ISBN:'123456-654321',
-        publish_date:'1979-01-01',
-        like_count:999,
-        download_count:999,
-        chapters:chapters
-        });
+      resolve(book);
       // 或者模拟异步操作失败y
       // reject(new Error('Failed to fetch book.'));
     }, 50); // 延迟1秒模拟异步操作
@@ -145,11 +146,7 @@ export const getChapter = (id) => {
   // 模拟异步请求
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
-      resolve({
-        id:0,
-        title:'标题',
-        content:'内容内容。。。0'.repeat(100)
-      });
+      resolve({... new Chapter(0,'标题','内容内容123456。。。0'.repeat(100))});
     }, 50); // 延迟1秒模拟异步操作
   });
 };
@@ -158,13 +155,7 @@ export const getComments = (chapterId) => {
   return new Promise((resolve, reject) => {
     const comments = []
     for(let i=0;i<10;i++){
-      comments.push({
-        commentId:i,
-        userId:i,
-        userName:'ShacooKL',
-        content:'好看 爱看 天天看'.repeat(5),
-        likes:999
-      })
+      comments.push({... new Comment(i,i,'user_'+i,'好看 爱看 天天看'.repeat(5),i)})
     }
     setTimeout(async () => {
       resolve(comments);
@@ -176,12 +167,42 @@ export const getBooks = (searchContent) => {
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
       const books = [];
-      for (let i = 0; i < 2; i++) {
-        const book = { id: i, title: searchContent + ' - '+ i, author: 'Author Name', cover: '/img/cover1.jpg' };
+      for (let i = 0; i < 20; i++) {
+        const book = { ... new Book( i, searchContent + ' - '+ i,  'Author'+i, '/img/cover1.jpg' )};
         books.push(book); // 将当前 book 对象推送到 books 数组中
       }
       // 模拟异步操作成功，返回数据
       resolve(books);
+     
+      //或者模拟异步操作失败
+      reject(new Error('Failed to fetch books.'));
+    }, 50); // 延迟1秒模拟异步操作
+  });
+};
+export const getExpList = (userId) => {
+  // 模拟异步请求
+  return new Promise((resolve, reject) => {
+    setTimeout(async () => {
+      const list = [];
+      for (let i = 0; i < 20; i++) {
+        const exp = { ... new ReadingExp(i,"阅读心得_"+i,'',userId,i,'2024/4/14')};
+        list.push(exp); // 将当前 book 对象推送到 books 数组中
+      }
+      // 模拟异步操作成功，返回数据
+      resolve(list);
+     
+      //或者模拟异步操作失败
+      reject(new Error('Failed to fetch books.'));
+    }, 50); // 延迟1秒模拟异步操作
+  });
+};
+export const getExp = (expId) => {
+  // 模拟异步请求
+  return new Promise((resolve, reject) => {
+    setTimeout(async () => {
+      const exp = { ... new ReadingExp(expId,"阅读心得_"+expId,'# 阅读心得  \n ## 阅读心得  \n  -第一，我不叫喂 \n-第二-从不错判任何一件事\n'.repeat(100),expId,expId,'2024/4/14')};
+      // 模拟异步操作成功，返回数据
+      resolve(exp);
      
       //或者模拟异步操作失败
       reject(new Error('Failed to fetch books.'));

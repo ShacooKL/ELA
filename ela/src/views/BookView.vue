@@ -1,12 +1,12 @@
 <template>
 <Header/>
 <BackgroundImg/>
-<div class="book-view-box">
+<div class="book-view-box" >
 	<div class="top item">
 		<BookItem :card="false" v-bind="bookStore.book" />
 	</div>
 	<div class="info item">
-			<span>出版商：{{bookStore.book.cover}}</span>
+			<span>出版商：{{bookStore.book.publisher}}</span>
 			<span>ISBN：{{bookStore.book.ISBN}}</span>
 			<span>发布日期：{{bookStore.book.publish_date}}</span>
 			<span>点赞量：{{bookStore.book.like_count}}</span>

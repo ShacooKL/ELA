@@ -9,7 +9,7 @@
 const loading = defineModel()
 </script>
 
-<style>
+<style scoped>
 .loader {
   display: flex;
   flex-direction: column;

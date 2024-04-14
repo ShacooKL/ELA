@@ -13,6 +13,7 @@
 					<el-tab-pane label="Collection" name="userCollection" ></el-tab-pane>
 					<el-tab-pane label="Friends" name="friends"></el-tab-pane>
 					<el-tab-pane label="Setting" name="setting" v-if="userStore.id==id"></el-tab-pane>
+					<el-tab-pane label="阅读心得" name="readingExpList"></el-tab-pane>
 				</el-tabs>
 				</div>
 		</div>
@@ -66,7 +67,7 @@ watch(
 	flex-shrink: 0;
 	display: flex;
 	flex-direction: column;
-	background-color: rgba(161, 32, 32, 0);
+	background-color: #212121;
 }
 .top{
 	height: 240px;
