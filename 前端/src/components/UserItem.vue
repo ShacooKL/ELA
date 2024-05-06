@@ -13,8 +13,8 @@
 		</div>
 	</div>
 	<div class="function">
-			<button v-if="!self&&!followed" @click="follow">关注</button>
-			<button v-if="!self&&followed" class="d-btn" @click="unfollow">取消关注</button>
+			<button v-if="!self&&!followed">关注</button>
+			<button v-if="!self&&followed" class="d-btn">取消关注</button>
 	</div>
 </div>
 
@@ -23,9 +23,6 @@
 
 <script setup>
 import Avatar from './Avatar.vue'
-import * as api from '@/api'
-import {ref} from 'vue'
-import { useUserStore } from '@/stores/user';
 const props = defineProps({
 	self:{
 		type:Boolean,
@@ -36,22 +33,6 @@ const props = defineProps({
 		default:false
 	},
 	userId:Number
-})
-const followed = ref(props.followed)
-const userStore = useUserStore()
-const follow=(async ()=>{
-	if(!userStore.isLogin)
-		return
-	let result = await api.follow(useUserStore.id,props.userId)
-	if(result)
-		followed.value = !followed.value
-})
-const unfollow=(async()=>{
-	if(!userStore.isLogin)
-		return
-	let result = await api.unFollow(useUserStore.id,props.userId)
-	if(result)
-		followed.value = !followed.value
 })
 </script>
 

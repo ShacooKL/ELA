@@ -30,12 +30,11 @@ class Comment {
 	}
 }
 class User {
-	constructor(id = 0, name = '', email = '', avatar = '',ban = false) {
+	constructor(id = 0, name = '', email = '', avatar = '') {
 		this.id = id
 		this.name = name
 		this.email = email
-		this.avatar = avatar,
-		this.ban = ban
+		this.avatar = avatar
 	}
 }
 class ReadingExp {

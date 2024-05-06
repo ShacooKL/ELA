@@ -21,8 +21,7 @@
 		</div>
 		<div class="btn" v-if="!card">
 			<button class="readBtn"  @click="toRead">开始阅读</button>
-			<button class="uncltBtn" @click="unCollect"  v-if="collected">取消收藏</button>
-			<button class="cltBtn" @click="collect"  v-if="!collected">加入收藏</button>
+			<button class="cltBtn" @click="collect">加入收藏</button>
 		</div>
 </div>
 
@@ -30,11 +29,9 @@
 
 
 <script setup>
-import {ref,onMounted} from'vue'
+import {ref} from'vue'
 import { useRouter } from 'vue-router'
 import { useBookStore } from '@/stores/book';
-import * as api from '@/api'
-import { useUserStore } from '@/stores/user';
 const props = defineProps({
 	id:Number,
 	title:String,
@@ -48,38 +45,14 @@ const props = defineProps({
 const zoom = ref(false)
 const router = useRouter()
 const bookStore = useBookStore()
-const userStore = useUserStore()
-const collected = ref(false)
-onMounted(async ()=>{
-	if(userStore.isLogin)
-		collected.value = await api.isCollected(userStore.id,props.id)
-})
-
-
 function toBook(){
 	router.push({name:'book',params:{id:props.id}})
 }
 async function toRead(){
-
 	await bookStore.readBook(props.id)
 	router.push({name:'reading',params:{id:bookStore.book.chapters[0].id}})
 }
-async function collect(){
-	if(!userStore.isLogin)
-		return
-	let result = await api.collect(userStore.id,props.id)
-	if(result){
-		collected.value=!collected.value
-	}
-}
-async function unCollect(){
-	if(!userStore.isLogin)
-		return
-	let result = await api.unCollect(userStore.id,props.id)
-	if(result){
-		collected.value=!collected.value
-	}
-}
+
 </script>
 
 <style scoped>
@@ -171,11 +144,5 @@ button{
 }
 .cltBtn:hover{
 	background-color: #ffffffd8;
-}
-.uncltBtn{
-	background-color: hsla(69, 39%, 62%, 0.822);
-}
-.uncltBtn:hover{
-	background-color: hsl(69, 39%, 62%);
 }
 </style>

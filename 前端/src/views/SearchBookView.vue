@@ -42,7 +42,7 @@ watch(
   async newSearchContent => {
     props.searchContent = newSearchContent
 		bookStore.bookList=[]
-    bookStore.getBooks(newSearchContent)
+    bookStore.queryBooks(newSearchContent)
   }
 )
 </script>

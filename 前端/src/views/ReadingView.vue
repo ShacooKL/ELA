@@ -31,8 +31,6 @@ import ReadingSideBar from '@/components/ReadingSideBar.vue'
 import ReadingSetting from '@/components/ReadingSetting.vue'
 import { useReadingStore } from '@/stores/reading'
 import { onBeforeRouteUpdate } from 'vue-router'
-import { useRouter,useRoute } from 'vue-router'
-const route = useRoute()
 const readingStore = useReadingStore()
 
 const curTheme = ref('')
@@ -40,7 +38,7 @@ const curFontFamily = ref('黑体')
 const curFontSize = ref(20)
 const initWidth = '60%'
 const mainWidth = ref(initWidth)
-
+const content = ref(' 我是无敌暴龙战神 '.repeat(5000))
 const settingShow = ref(false)
 const chapterShow = ref(false)
 watch(curTheme, (newTheme) => {
@@ -56,13 +54,6 @@ onBeforeRouteUpdate(async(to, from) => {
     readingStore.commentShow=false
     chapterShow.value=false
 })
-
-watch(
-  () => route.params.id,
-  async newId => {
-		readingStore.getChapter(newId)
-  }
-)
 
 </script>
 

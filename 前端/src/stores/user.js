@@ -7,7 +7,7 @@ export const useUserStore = defineStore('user', () => {
 	const avatar = ref('/img/profile') //头像路径
 	const email = ref('2801022619@qq.com')
 	const isLogin = ref(false)
-	const loginWidowShow = ref(false)	//登录窗口显示
+	const loginWidowShow = ref(true)	//登录窗口显示
 	const friends = ref([]) //好友列表
 	async function login(username, password) {
 		try {
@@ -40,7 +40,7 @@ export const useUserStore = defineStore('user', () => {
 
 	function logout() {
 		//logout api
-		isLogin.value = false
+		isLogin = false
 	}
 	return { id, name, avatar, email, isLogin, loginWidowShow, friends, login, getFriends }
 },

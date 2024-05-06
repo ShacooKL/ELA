@@ -52,10 +52,6 @@ export const getUser = (identity)=>{//identity = {id:id,name:name} 用于查询�
     }, 50); 
   });
 }
-
-
-
-
 export const initHomeView = () => {
 	// 测试：
 	// 模拟异步请求
@@ -146,9 +142,7 @@ export const getBook = (id) => {
   });
 
 };
-
 export const getChapter = (id) => {
-  console.log("chapter change"+id)
   // 模拟异步请求
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
@@ -156,7 +150,6 @@ export const getChapter = (id) => {
     }, 50); // 延迟1秒模拟异步操作
   });
 };
-
 export const getComments = (chapterId) => {
   // 模拟异步请求
   return new Promise((resolve, reject) => {
@@ -207,7 +200,7 @@ export const getExp = (expId) => {
   // 模拟异步请求
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
-      const exp = { ... new ReadingExp(expId,"阅读心得_"+expId,'# 阅读心得  \n ## 阅读心得  \n  -第一，我不叫喂 \n-第二-从不错判任何一件事\n'.repeat(100),55210919,expId,'2024/4/14')};
+      const exp = { ... new ReadingExp(expId,"阅读心得_"+expId,'# 阅读心得  \n ## 阅读心得  \n  -第一，我不叫喂 \n-第二-从不错判任何一件事\n'.repeat(100),expId,expId,'2024/4/14')};
       // 模拟异步操作成功，返回数据
       resolve(exp);
      
@@ -220,79 +213,3 @@ export const getExp = (expId) => {
 
 
 
-
-
-export const follow = (id1,id2)=>{//id1 是登录用户id  id2是要关注的userid 
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-     
-        resolve(true);
-      
-    }, 50); 
-  });
-}
-export const unFollow = (id1,id2)=>{//id1 是登录用户id  id2是要关注的userid 
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-
-      resolve(true);
-      // 或者模拟异步操作失败y
-      // reject(new Error('Failed to fetch book.'));
-    }, 50); 
-  });
-}
-
-export const collect = (userId,bookId) => {
-  // 模拟异步请求
-  return new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      resolve(true)
-      
-    }, 50); // 延迟1秒模拟异步操作
-  });
-};
-export const unCollect = (userId,bookId) => {
-  // 模拟异步请求
-  return new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      resolve(true)
-      
-    }, 50); // 延迟1秒模拟异步操作
-  });
-};
-
-export const isCollected = (userId,bookId)=>{//判断是否收藏该书
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-        resolve(true);
-      
-    }, 50); 
-  });
-}
-
-// 评论操作 
-export const disLike = (userId,commentId) => {
-  // 模拟异步请求
-  return new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      resolve(true)
-      
-    }, 50); // 延迟1秒模拟异步操作
-  });
-};
-
-export const like = (userId,commentId)=>{//判断是否收藏该书
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-        resolve(true);
-    }, 50); 
-  });
-}
-
-export const likedState = (userId,bookId)=>{//0无状态 1点赞 2踩
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-        resolve(0);
-    }, 50); 
-  });
-}

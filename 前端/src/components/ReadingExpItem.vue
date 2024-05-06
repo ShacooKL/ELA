@@ -1,6 +1,6 @@
 <template>
 	<div class="rei-box">
-		<el-page-header  @back="router.push({name:'readingExpList'})">
+		<el-page-header :icon="ArrowLeft" @back="router.push({name:'readingExpList'})">
 			<template #content >
 				<div class="title-box">
 					<Avatar :size="25"/>
@@ -39,7 +39,7 @@ const state = reactive({
 });
 const edit = ref(false)
 const self = computed(()=>{
-	return userStore.isLogin&&userStore.id==readingStore.exp.authorId
+	return userStore.isLogin&&userStore.$id==readingStore.exp.authorId
 })
 </script>
 <style scoped>
