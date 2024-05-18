@@ -60,7 +60,6 @@ function toBook(){
 	router.push({name:'book',params:{id:props.id}})
 }
 async function toRead(){
-
 	await bookStore.readBook(props.id)
 	router.push({name:'reading',params:{id:bookStore.book.chapters[0].id}})
 }

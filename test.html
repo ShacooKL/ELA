@@ -1,109 +1,35 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>时间输入</title>
+    <title>添加教师和学生信息</title>
 </head>
 <body>
-	
-    <form action="DateServlet" method="post" class="center">
-        <label for="startTime">起始时间：</label>
-        <input type="text" id="startTime" name="startTime" placeholder="yyyy-mm-dd hh-mm-ss"><br>
-        
-        <label for="endTime">结束时间：</label>
-        <input type="text" id="endTime" name="endTime" placeholder="yyyy-mm-dd hh-mm-ss"><br>
-        <div class="display">
-					<div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div><div class="item">dsadwadawddd dsad的撒的撒大苏打的我</div>
-				</div>
-				
-
-
-
-
-
-
-        <input class="btn" type="submit" value="提交">
-				
+    <h2>添加教师和学生信息</h2>
+    <form action="AddTeacherAndStudentsServlet" method="post">
+        <fieldset>
+            <legend>教师信息</legend>
+            姓名: <input type="text" name="teacherName" required><br>
+            工号: <input type="text" name="teacherId" required><br>
+        </fieldset>
+        <fieldset id="students">
+            <legend>学生信息</legend>
+            <div class="student">
+                姓名: <input type="text" name="studentName" required>
+                学号: <input type="text" name="studentId" required><br>
+            </div>
+        </fieldset>
+        <button type="button" onclick="addStudent()">添加学生</button><br><br>
+        <input type="submit" value="提交">
     </form>
-		
+    <script>
+        let a1a2a4ewewa21651a= 5;
+        function addStudent() {
+            var studentDiv = document.createElement('div');
+            studentDiv.className = 'student';
+            studentDiv.innerHTML = '姓名: <input type="text" name="studentName" required> 学号: <input type="text" name="studentId" required><br>';
+            document.getElementById('students').appendChild(studentDiv);
+        }
+    </script>
 </body>
 </html>
-<style>
-	body{
-		background-color: #3d3d3d;
-	}
-	.center{
-		position: relative;
-		width: 800px;
-		height: 600px;
-		margin: 50px auto;
-		background-color: #1f1f1f;
-		display: flex;
-		flex-direction: column;
-		padding: 20px;
-		padding-bottom: 150px;
-		border-radius: 15px;
-		color: azure;
-	}
-	label{
-		margin-bottom: 10px;
-	}
-	input{
-		height: 80px;
-		background-color: #474747;
-		border: none;
-		color:azure;
-		padding: 10px;
-		box-sizing: border-box;
-		border-radius: 5px;
-	}
-	input:focus{
-		outline: none;
-		
-	}
-
-	.btn{
-		height: 50px;
-		width: 50%;
-		position: absolute;
-		bottom: 20px;
-		left: 25%;
-		background-color: rgb(78, 174, 134);
-		border: none;
-		color: #fdfdfd;
-		border-radius: 10px;
-		font-size: 15px;
-		cursor: pointer;
-
-	}
-	.display{
-		display: flex;
-		flex-direction: column;
-		overflow-y: auto;
-
-	}
-	.item{
-		font-size: 17px;
-		margin-bottom: 20px;
-		color: #ececec71;
-	}
-		/* 修改滚动条的样式 */
-	::-webkit-scrollbar {
-			width: 8px; /* 设置滚动条宽度 */
-	}
-
-	::-webkit-scrollbar-thumb {
-			background-color: #838383; /* 滚动条滑块颜色 */
-			border-radius: 5px; /* 滚动条滑块圆角 */
-	}
-
-	/* 滚动条轨道 */
-	::-webkit-scrollbar-track {
-			background-color: #eeeeee00; /* 滚动条轨道颜色 */
-	}
-
-	/* 鼠标悬停在滚动条上的样式 */
-	::-webkit-scrollbar-thumb:hover {
-			background-color: rgb(118, 118, 118)
-	}
-</style>

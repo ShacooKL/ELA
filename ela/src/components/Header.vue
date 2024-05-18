@@ -24,7 +24,7 @@ watch(isHead, () => {
 		else
 			backgroundColor.value = '#00000051'
 		show.value=true
-  }, 0); // 设置延迟一秒再显示
+  }, 350); // 设置延迟一秒再显示
 })
 const updateWindowScrollHeight = () => {
 	scrollY.value = window.scrollY;
@@ -42,7 +42,7 @@ onUnmounted(() => {
 
 <template>
 <Transition>
-	<div class="header-box" v-if="show" :style="{backgroundColor:backgroundColor}">
+	<div class="header-box" v-show="show" :style="{backgroundColor:backgroundColor}">
 		<div class="search-container">
 			<Search/>
 		</div>
@@ -64,7 +64,7 @@ onUnmounted(() => {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 60px;
+	min-height: 60px;
 	background-color: #000000;
 	color:azure;
 	display: flex;

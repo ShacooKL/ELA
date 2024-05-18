@@ -1,45 +1,56 @@
 <template>
 <div class="search-box">
-	<input v-model="searchContent" @keydown.enter="search">
+	<CompileInput v-model:searching="searching" v-model:errInfo = "errInfo" v-model:searchContent="searchContent"/>
 	<button @click="search">搜索</button>
 </div>
+<span class="err">{{ errInfo }}</span>
+
 </template>
 
 <script setup>
-import {ref} from'vue'
+import {ref,watch} from'vue'
 import { useRouter } from 'vue-router';
+import CompileInput from './CompileInput.vue';
 const searchContent = ref('')
 const router = useRouter()
+const searching = ref(false)
+const errInfo = ref("")
 function search(){
+	searching.value = true;
 	if(searchContent.value=='')
 		return
-	router.push({ name: 'searchBook', params: { searchContent: searchContent.value } })
+
 }
+watch(searchContent,()=>{
+	console.log(searchContent.value)
+})
 </script>
 
 <style scoped>
 .search-box{
-	height: 40px;
+	min-height: 40px;
 	display: flex;
 	position: relative;
 	color: azure;
 }
-input{
-	border-radius: 10px;
-	height: 40px;
-	background-color: rgba(36, 36, 36, 0.411);
-	border:1.5px solid white;;
-	box-sizing: border-box;
-	padding: 5px 10px 5px 10px;
+.input:deep(){
 	flex-grow: 1;
+	width: calc(100% - 150px);
+	border-radius: 10px;
+	min-height: 40px;
+	background-color: rgb(0, 0, 0);
+	border:1.5px solid white;
+	box-sizing: border-box;
+	padding: 5px 80px 5px 10px;
 	color: azure;
+	line-height: 1.7;
 }
-input:focus{
+input:focus:deep(){
 	outline: none;
 }
 button{
 	width: 70px;
-	height: 40px;
+	height: 100%;
 	border: none;
 	border-radius: 10px;
 	border-top-left-radius: 0px;
@@ -53,5 +64,10 @@ button{
 button:hover{
 	background-color: rgb(255, 255, 255);
 	color: black;
+}
+.err{
+	color: rgb(67, 223, 223);
+	margin: 10px;
+	padding-top: 20px;
 }
 </style>

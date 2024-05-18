@@ -15,6 +15,7 @@ import ReadingExpItem from '@/components/ReadingExpItem.vue'
 import  {useBookStore}  from '@/stores/book'
 import { useUserStore } from '@/stores/user'
 import { useReadingStore } from '@/stores/reading'
+import TestView from '@/views/TestView.vue'
 
 const routes = [
   {
@@ -61,6 +62,12 @@ const routes = [
       const bookStore = useBookStore()
       bookStore.getBook(to.params.id)
     },
+  },
+  {
+    path:'/test',
+    name:'test',
+    component:TestView,
+    
   },
   {
     path:'/user/:id',
